@@ -7,5 +7,5 @@ go get github.com/suite911/tools911/tools/cmd/slurp911
 
 ## Usage:
 ```sh
-slurp911 PKGNAME VARNAME KEY:PATH [KEY:PATH ...]
+slurp911 [OPTIONS] KEY:PATH [KEY:PATH ...]
 ```
