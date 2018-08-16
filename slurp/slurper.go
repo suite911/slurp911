@@ -53,7 +53,7 @@ func (s *Slurper) Read(p []byte) (n int, err error) {
 		return
 	}
 	var n64 int64
-	n64, err = io.Copy(p, b)
+	n64, err = b.WriteTo(p)
 	n = int(n64)
 	return
 }
