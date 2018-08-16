@@ -1,2 +1,2 @@
 # slurp911
-Read files at compile time
+Read local files, local directories, and files retrieved over HTTP at compile time.
