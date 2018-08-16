@@ -48,13 +48,13 @@ func (s *Slurper) Init(opts ...string) *Slurper {
 
 func (s *Slurper) Read(p []byte) (n int, err error) {
 	var b bytes.Buffer
-	_, err = s.WriteTo(b)
+	var n64 int64
+	n64, err = s.WriteTo(b)
+	n = int(n64)
 	if err != nil {
 		return
 	}
-	var n64 int64
-	n64, err = b.WriteTo(p)
-	n = int(n64)
+	p = p.Bytes()
 	return
 }
 
