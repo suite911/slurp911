@@ -15,16 +15,20 @@ func Read(p []byte) (n int, err error) {
 	return
 }
 
-func Slurp(key string, data []byte) error {
+func Slurp(key, path string) error {
+	return self.Slurp(key, path)
+}
+
+func Slurped(key string, data []byte) error {
 	return self.Slurp(key, data)
 }
 
-func SlurpDir(key string, pathElems ...string) error {
-	return self.SlurpDir(key, pathElems...)
+func SlurpDir(prefix, path string) error {
+	return self.SlurpDir(prefix, path)
 }
 
-func SlurpFile(key string, pathElems ...string) error {
-	return self.SlurpFile(key, pathElems...)
+func SlurpFile(key, path string) error {
+	return self.SlurpFile(key, path)
 }
 
 func SlurpURL(key string, url string) error {
