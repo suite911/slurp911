@@ -35,6 +35,8 @@ func (s *Slurper) Init(opts ...string) *Slurper {
 	default:
 		panic("Usage: (*Slurper).Init([pkgName string[, varName string]]")
 	}
+	s.mutex.Lock()
+	defer s.mutex.Unlock()
 	s.varName = varName
 	s.pkgName = pkgName
 	s.slurp = make(map[string][]byte)
