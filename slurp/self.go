@@ -1,11 +1,5 @@
 package slurp
 
-import (
-	"sync"
-
-	"github.com/suite911/error911/onfail"
-)
-
 func init() {
 	self.Init()
 }
