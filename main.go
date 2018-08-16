@@ -38,5 +38,5 @@ func badUsage(err error) {
 }
 
 func usage() {
-	fmt.Fprintln(os.Stderr, "usage: "+os.Args[0]+" PATHS...")
+	fmt.Fprintln(os.Stderr, "usage: "+os.Args[0]+" KEY:PATH [KEY:PATH [...]]")
 }
