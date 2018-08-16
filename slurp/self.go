@@ -1,5 +1,7 @@
 package slurp
 
+import "io"
+
 func init() {
 	self.Init()
 }
