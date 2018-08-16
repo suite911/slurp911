@@ -1,6 +1,7 @@
 package slurp
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"io"
@@ -8,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 	"sync"
 )
 
@@ -134,7 +136,7 @@ func (s *Slurper) WriteTo(w io.Writer) (n int64, err error) {
 			return
 		}
 		for i, b := range v {
-			sep = " 0x"
+			sep := " 0x"
 			if i%8 == 0 {
 				sep = "\n\t\t0x"
 			}
