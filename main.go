@@ -9,17 +9,18 @@ import (
 )
 
 func main() {
-	if len(os.Args) < 2 {
+	if len(os.Args) < 4 {
 		usage()
 		return
 	}
+	s := slurp.New(os.Args[1], os.Args[2])
 	failed := false
-	for _, arg := range os.Args[1:] {
+	for _, arg := range os.Args[3:] {
 		kv := strings.SplitN(arg, ":", 2)
 		if len(kv) != 2 {
 			badUsage(nil)
 		}
-		if err := slurp.Slurp(kv[0], kv[1]); err != nil {
+		if err := s.Slurp(kv[0], kv[1]); err != nil {
 			log.Println("Failed to slurp \""+kv[1]+"\"")
 			failed = true
 		}
@@ -38,5 +39,5 @@ func badUsage(err error) {
 }
 
 func usage() {
-	fmt.Fprintln(os.Stderr, "usage: "+os.Args[0]+" KEY:PATH [KEY:PATH [...]]")
+	fmt.Fprintln(os.Stderr, "usage: "+os.Args[0]+" PKGNAME VARNAME KEY:PATH [KEY:PATH [...]]")
 }
