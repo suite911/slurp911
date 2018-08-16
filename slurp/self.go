@@ -31,4 +31,9 @@ func SlurpURL(key string, url string) error {
 	return self.SlurpURL(key, url)
 }
 
+func WriteTo(w io.Writer) (n int64, err error) {
+	n, err = self.WriteTo(w)
+	return
+}
+
 var self Slurper
