@@ -2,6 +2,7 @@ package slurp
 
 import (
 	"errors"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -55,7 +56,20 @@ func (s *Slurper) Read(p []byte) (n int, err error) {
 	return
 }
 
-func (s *Slurper) Slurp(key string, data []byte) error {
+func (s *Slurper) Slurp(key, path string) error {
+	fi, err := os.Stat(path)
+	if err == nil {
+		if fi.IsDir() {
+			return s.SlurpDir(key+"/", path)
+		}
+		return s.SlurpFile(key, path)
+	}
+	err = s.SlurpURL(key, path)
+	fmt.Fprintf(os.Stderr, "Developer note: Type <%T>\n")
+	return err
+}
+
+func (s *Slurper) Slurped(key string, data []byte) error {
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
 	if _, ok := s.slurp[key]; ok {
@@ -65,8 +79,8 @@ func (s *Slurper) Slurp(key string, data []byte) error {
 	return nil
 }
 
-func (s *Slurper) SlurpDir(prefix string, pathElems ...string) error {
-	d, err := ioutil.ReadDir(filepath.Join(pathElems...))
+func (s *Slurper) SlurpDir(prefix, path string) error {
+	d, err := ioutil.ReadDir(path)
 	if err != nil {
 		return err
 	}
@@ -80,8 +94,7 @@ func (s *Slurper) SlurpDir(prefix string, pathElems ...string) error {
 	return nil
 }
 
-func (s *Slurper) SlurpFile(key string, pathElems ...string) error {
-	path := filepath.Join(pathElems...)
+func (s *Slurper) SlurpFile(key, path string) error {
 	if len(key) < 1 {
 		key = path
 	}
@@ -89,7 +102,7 @@ func (s *Slurper) SlurpFile(key string, pathElems ...string) error {
 	if err != nil {
 		return err
 	}
-	return s.Slurp(key, b)
+	return s.Slurped(key, b)
 }
 
 func (s *Slurper) SlurpURL(key, url string) error {
@@ -102,7 +115,7 @@ func (s *Slurper) SlurpURL(key, url string) error {
 	if err != nil {
 		return err
 	}
-	return s.Slurp(key, b)
+	return s.Slurped(key, b)
 }
 
 func (s *Slurper) WriteTo(w io.Writer) (n int64, err error) {
