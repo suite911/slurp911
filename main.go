@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"net/url"
+	"log"
 	"os"
 
 	"github.com/suite911/slurp911/slurp"
@@ -13,28 +13,27 @@ func main() {
 		usage()
 		return
 	}
-	var err error
+	failed := false
 	for _, arg := range os.Args[1:] {
-		if _, err = url.ParseRequestURI(arg); err == nil {
-			slurp.SlurpURL(arg)
-		} else {
-			fi *os.FileInfo
-			if fi, err = os.Stat(arg); err != nil {
-				badUsage(err)
-				continue
-			}
-			if fi.IsDir(arg) {
-				slurp.SlurpDir(arg)
-			} else {
-				slurp.SlurpFile(arg)
-			}
+		kv := strings.SplitN(arg, ":", 2)
+		if len(kv) != 2 {
+			badUsage(nil)
 		}
+		if err := slurp.Slurp(kv[0], kv[1]); err != nil {
+			log.Println("Failed to slurp \""+kv[1]+"\"")
+			failed = true
+		}
+	}
+	if failed {
+		os.Exit(1)
 	}
 }
 
 func badUsage(err error) {
 	usage()
-	log.Println(err)
+	if err != nil {
+		log.Println(err)
+	}
 	os.Exit(1)
 }
 
