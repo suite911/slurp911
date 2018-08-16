@@ -2,7 +2,7 @@ package slurp911
 
 import "github.com/suite911/slurp911/slurp"
 
-func Main(outPath, programName string, pairs []string, opts ...string) error {
+func Main(programName, outPath string, pairs []string, opts ...string) error {
 	var out *os.File
 	if outPath == "-" {
 		out = os.Stdout
