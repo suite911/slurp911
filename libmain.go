@@ -2,7 +2,17 @@ package slurp911
 
 import "github.com/suite911/slurp911/slurp"
 
-func Main(programName string, pairs []string, opts ...string) error {
+func Main(outPath, programName string, pairs []string, opts ...string) error {
+	var out *os.File
+	if outPath == "-" {
+		out = os.Stdout
+	} else {
+		var err error
+		if out, err = os.Open(); err != nil {
+			return err
+		}
+		defer out.Close()
+	}
 	var s slurp.Slurper
 	s.Init(opts...)
 	failed := false
@@ -21,5 +31,5 @@ func Main(programName string, pairs []string, opts ...string) error {
 			return err
 		}
 	}
-	return nil
+	return s.WriteTo(out)
 }
