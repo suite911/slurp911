@@ -122,13 +122,13 @@ func (s *Slurper) WriteTo(w io.Writer) (n int64, err error) {
 	s.mutex.RLock()
 	defer s.mutex.RUnlock()
 	var nn int
-	nn, err = io.WriteString(w, "package "+s.pkgName+"\n\nvar "+s.varName+" = map[string][]byte {")
+	nn, err = io.WriteString(w, "package "+s.pkgName+"\n\nfunc init() {")
 	n += int64(nn)
 	if err != nil {
 		return
 	}
 	for k, v := range s.slurp {
-		nn, err = io.WriteString(w, "\n\t\""+k+"\": []ubyte{")
+		nn, err = io.WriteString(w, "\n\t"+s.varName+"[\""+k+"\"] = []byte{")
 		n += int64(nn)
 		if err != nil {
 			return
@@ -144,7 +144,7 @@ func (s *Slurper) WriteTo(w io.Writer) (n int64, err error) {
 				return
 			}
 		}
-		nn, err = io.WriteString(w, "\n\t},")
+		nn, err = io.WriteString(w, "\n\t}")
 		n += int64(nn)
 		if err != nil {
 			return
