@@ -21,7 +21,6 @@ func Main(programName, outPath string, pairs []string, opts ...string) error {
 	}
 	var s slurp.Slurper
 	s.Init(opts...)
-	failed := false
 	for _, pair := range pairs {
 		kv := strings.SplitN(pair, ":", 2)
 		var k, v string
