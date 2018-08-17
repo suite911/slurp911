@@ -16,7 +16,7 @@ func Slurp(key, path string) error {
 }
 
 func Slurped(key string, data []byte) error {
-	return self.Slurp(key, data)
+	return self.Slurped(key, data)
 }
 
 func SlurpDir(prefix, path string) error {
