@@ -1,6 +1,7 @@
 package slurp911
 
 import (
+	"errors"
 	"os"
 	"strings"
 
