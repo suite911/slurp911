@@ -1,6 +1,11 @@
 package slurp911
 
-import "github.com/suite911/slurp911/slurp"
+import (
+	"os"
+	"strings"
+
+	"github.com/suite911/slurp911/slurp"
+)
 
 func Main(programName, outPath string, pairs []string, opts ...string) error {
 	var out *os.File
@@ -31,5 +36,6 @@ func Main(programName, outPath string, pairs []string, opts ...string) error {
 			return err
 		}
 	}
-	return s.WriteTo(out)
+	_, err := s.WriteTo(out)
+	return err
 }
