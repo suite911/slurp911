@@ -123,14 +123,19 @@ func (s *Slurper) SlurpURL(key, url string) error {
 }
 
 func (s *Slurper) WriteTo(w io.Writer) (n int64, err error) {
+	fmt.Println("DEBUG: WriteTo")
 	s.mutex.RLock()
 	defer s.mutex.RUnlock()
+	if w == nil {
+		w = os.Stdout
+	}
 	var nn int
 	nn, err = io.WriteString(w, "package "+s.pkgName+"\n\nfunc init() {")
 	n += int64(nn)
 	if err != nil {
 		return
 	}
+	fmt.Println("DEBUG: WriteTo >> wrote package line")
 	for k, v := range s.slurp {
 		nn, err = io.WriteString(w, "\n\t"+s.varName+"[\""+k+"\"] = []byte{")
 		n += int64(nn)
