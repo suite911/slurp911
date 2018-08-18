@@ -88,8 +88,10 @@ func (s *Slurper) SlurpDir(prefix, path string) error {
 	}
 	for _, f := range d {
 		fn := f.Name()
-		key := prefix + filepath.Base(fn)
-		if err := s.SlurpFile(key, fn); err != nil {
+		fb := filepath.Base(fn)
+		key := prefix + fb
+		fp := filepath.Join(path, fb)
+		if err := s.SlurpFile(key, fp); err != nil {
 			return err
 		}
 	}
