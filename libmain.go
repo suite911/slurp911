@@ -2,7 +2,6 @@ package slurp911
 
 import (
 	"errors"
-	"fmt"
 	"os"
 	"strings"
 
