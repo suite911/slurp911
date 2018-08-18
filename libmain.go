@@ -23,7 +23,6 @@ func Main(programName, outPath string, pairs []string, opts ...string) error {
 	var s slurp.Slurper
 	s.Init(opts...)
 	for _, pair := range pairs {
-		fmt.Println("DEBUG: pair")
 		kv := strings.SplitN(pair, ":", 2)
 		var k, v string
 		switch len(kv) {
@@ -38,8 +37,6 @@ func Main(programName, outPath string, pairs []string, opts ...string) error {
 			return err
 		}
 	}
-	fmt.Println("DEBUG: finishing...")
 	_, err := s.WriteTo(out)
-	fmt.Println("DEBUG: finished:", err)
 	return err
 }
