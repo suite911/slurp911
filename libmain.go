@@ -14,7 +14,7 @@ func Main(programName, outPath string, pairs []string, opts ...string) error {
 		out = os.Stdout
 	} else {
 		var err error
-		if out, err = os.Open(outPath); err != nil {
+		if out, err = os.Create(outPath); err != nil {
 			return err
 		}
 		defer out.Close()
